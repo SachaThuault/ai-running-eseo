@@ -1,8 +1,8 @@
 import pandas as pd
 
 # read daily
-df = pd.read_parquet('../data/run_ww_2019_d.parquet')
-df2 = pd.read_parquet('../data/run_ww_2020_d.parquet')
+df = pd.read_parquet('../../data/run_ww_2020_d.parquet')
+df2 = pd.read_parquet('../../data/run_ww_2020_d.parquet')
 count=0
 count2=0
 
@@ -62,11 +62,19 @@ for index, row in coureur_specifique.iterrows():
 # Vous pouvez accéder aux données spécifiques du coureur à partir de ces listes
 for i in distances:
     if i == 0:
-        count +=1
+        count += 1
 
 
 print("jours de repos dans l'année : " + str(count))
-print("moyenne de nombre de jour par semaine : "+  str(count/54))
+print("moyenne de nombre de jour par semaine : " + str(count/54))
+print("gender : " + str(genders))
+print("age_groups : " + str(age_groups))
+print("countries : " + str(countries))
+print("majors : " + str(majors))
+print("volume total : " + str(sum(distances)))
+
+
+
 
 
 

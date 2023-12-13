@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 # Charger les données
-df = pd.read_parquet('../data/run_ww_2019_m.parquet')
+df = pd.read_parquet('./data/run_ww_2019_m.parquet')
 
 # Sélectionner les colonnes pertinentes
 selected_features = ['athlete', 'duration']
