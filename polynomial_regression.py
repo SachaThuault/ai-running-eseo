@@ -7,7 +7,9 @@ import numpy as np
 
 # Charger les données
 df = pd.read_parquet('./data/run_ww_2019_m.parquet')
-
+distance_moy = df.distance.mean()
+duration_moy = df.duration.mean()
+print(f"average speed km/h = {(distance_moy/duration_moy)*60}")
 # Sélectionner les colonnes pertinentes
 selected_features = ['athlete', 'duration']
 X = df[selected_features]
