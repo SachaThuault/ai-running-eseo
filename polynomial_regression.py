@@ -3,13 +3,21 @@ from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_squared_error, r2_score
 import matplotlib.pyplot as plt
-import numpy as np
+from sklearn.preprocessing import PolynomialFeatures
+from sklearn.pipeline import make_pipeline
+from sklearn.compose import ColumnTransformer
+from sklearn.preprocessing import OneHotEncoder
 
 # Charger les données
-df = pd.read_parquet('./data/run_ww_2019_m.parquet')
+df = pd.read_parquet('../data/run_ww_2019_m.parquet')
+
+# Calculer la moyenne
+distance_moy = df.distance.mean()
+duration_moy = df.duration.mean()
+print(f"average speed km/h = {(distance_moy / duration_moy) * 60}")
 
 # Sélectionner les colonnes pertinentes
-selected_features = ['athlete', 'duration']
+selected_features = ['athlete', 'duration', 'age_group']
 X = df[selected_features]
 y = df['distance']
 
@@ -17,13 +25,20 @@ y = df['distance']
 X_train, X_temp, y_train, y_temp = train_test_split(X, y, test_size=0.4, random_state=42)
 X_val, X_test, y_val, y_test = train_test_split(X_temp, y_temp, test_size=0.5, random_state=42)
 
+# Créer un préprocesseur pour gérer les variables catégorielles
+preprocessor = ColumnTransformer(
+    transformers=[
+        ('age_group', OneHotEncoder(), ['age_group'])
+    ],
+    remainder='passthrough'
+)
 
-from sklearn.preprocessing import PolynomialFeatures
-from sklearn.pipeline import make_pipeline
+# Boucle pour différents degrés de polynômes
+for degree in range(1, 6):
+    # Créer le pipeline avec le préprocesseur et le modèle polynomial
+    polyreg = make_pipeline(preprocessor, PolynomialFeatures(degree), LinearRegression())
 
-
-for degree in range(1, 10):
-    polyreg = make_pipeline(PolynomialFeatures(degree), LinearRegression())
+    # Adapter le modèle
     polyreg.fit(X_train, y_train)
 
     # Faire des prédictions sur l'ensemble de validation
@@ -36,10 +51,10 @@ for degree in range(1, 10):
     print(f'Mean Squared Error (MSE) on validation set: {mse}')
     print(f'R-squared (R2) on validation set: {r2}')
 
-
     # Visualiser les résultats pour la régression polynomiale
     plt.scatter(X_test['duration'], y_test, color='black', label='True values (Polynomial Regression)')
-    plt.scatter(X_test['duration'], polyreg.predict(X_test), color='blue', linewidth=1, label=f'Predicted values (Polynomial Regression) deg: {degree}')
+    plt.scatter(X_test['duration'], polyreg.predict(X_test), color='blue', linewidth=1,
+                label=f'Predicted values (Polynomial Regression) deg: {degree}')
     plt.xlabel('Duration')
     plt.ylabel('Distance')
     plt.legend()
