@@ -1,7 +1,7 @@
 import pandas as pd
 
 # read daily
-df = pd.read_parquet('../../data/run_ww_2020_d.parquet')
+df = pd.read_parquet('../../data/run_ww_2019_d.parquet')
 df2 = pd.read_parquet('../../data/run_ww_2020_d.parquet')
 count=0
 count2=0
@@ -22,7 +22,11 @@ print(f"Nom des colonnes df2 : {df2.columns}")
 # print(df.loc[df.distance > 42].duration)
 # print("7-------------------------------------")
 # print(df.loc[df.distance == 42].duration.describe())
-
+print("7-------------------------------------")
+print(df.loc[df.age_group == '55 +'])
+# print(df.age_group)
+# if df.age_group == '55+':
+#     print(df.athlete)
 
 # for train in df:
 #     # print("train : " + train.distance)
@@ -45,7 +49,12 @@ majors = []
 
 # Filtrer les données pour un coureur spécifique (par exemple, athlete = 37594)
 
-coureur_specifique = df.loc[df.athlete == 37594]
+# coureur_specifique = df.loc[df.athlete == 215456] athlete vide ?
+# coureur_specifique = df.loc[df.athlete == 21547] 2000
+# coureur_specifique = df.loc[df.athlete == 21549] 2500
+# coureur_specifique = df.loc[df.athlete == 21550] 500 km / an
+# coureur_specifique = df.loc[df.athlete == 21551] 500 35 - 54
+coureur_specifique = df.loc[df.athlete == 10] # 6 10 26 28 35 13326635 13326665 13326676 13326695 13326700
 
 # Parcourir les lignes résultantes et ajouter les valeurs aux listes correspondantes
 for index, row in coureur_specifique.iterrows():

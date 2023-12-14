@@ -4,6 +4,7 @@ import pandas as pd
 
 df = pd.read_parquet('../../data/run_ww_2019_d.parquet')
 df2 = pd.read_parquet('../../data/run_ww_2020_d.parquet')
+
 #
 # # Assurez-vous d'avoir la colonne 'age_group' au format de catégorie pour garantir un ordre correct sur l'axe y
 # df['age_group'] = df['age_group'].astype('category')
@@ -93,9 +94,12 @@ majors = []
 
 # Filtrer les données pour un coureur spécifique (par exemple, athlete = 37594)
 
-coureur_specifique = df.loc[df.athlete == 37594]
-coureur_specifique2 = df2.loc[df2.athlete == 37594]
-
+# coureur_specifique = df.loc[df.athlete == 37594] # coureur semi pro, 18 - 34
+# coureur_specifique2 = df2.loc[df2.athlete == 37594]
+# coureur_specifique = df.loc[df.athlete == 34564] # coureur récréatif / sportif, 35 - 54
+# coureur_specifique2 = df2.loc[df2.athlete == 34564]
+coureur_specifique = df.loc[df.athlete == 10] # coureur???, 55 +
+coureur_specifique2 = df2.loc[df2.athlete == 10] # 6 10 26 28 35 13326635 13326665 13326676 13326695 13326700
 # Parcourir les lignes résultantes et ajouter les valeurs aux listes correspondantes
 for index, row in coureur_specifique.iterrows():
     datetimes.append(row['datetime'])
@@ -139,7 +143,7 @@ plt.scatter(datetimes, distances, label="datetime / distance", s=100)
 plt.title('Analyse entrainement en fonction de datetime et distance sur 2 ans')
 plt.xlabel('datetime')
 plt.ylabel('distance')
-plt.legend(title='Analyse entrainement en fonction de datetime et distance sur 2 ans')
+# plt.legend(title='Analyse entrainement en fonction de datetime et distance sur 2 ans')
 
  # Afficher le graphique
 plt.show()
@@ -151,7 +155,7 @@ plt.scatter(durations, distances, label="duration / distance", s=100)
 plt.title('Analyse entrainement en fonction de duration et distance sur 2 ans')
 plt.xlabel('duration')
 plt.ylabel('distance')
-plt.legend(title='Analyse entrainement en fonction de duration et distance sur 2 ans')
+# plt.legend(title='Analyse entrainement en fonction de duration et distance sur 2 ans')
 
  # Afficher le graphique
 plt.show()
