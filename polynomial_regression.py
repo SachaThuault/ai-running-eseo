@@ -7,9 +7,11 @@ from sklearn.preprocessing import PolynomialFeatures
 from sklearn.pipeline import make_pipeline
 from sklearn.compose import ColumnTransformer
 from sklearn.preprocessing import OneHotEncoder
+import time
+from sklearn.linear_model import Ridge
 
 # Charger les données
-df = pd.read_parquet('../data/run_ww_2019_m.parquet')
+df = pd.read_parquet('./data/run_ww_2020_d.parquet')
 
 # Calculer la moyenne
 distance_moy = df.distance.mean()
@@ -17,9 +19,9 @@ duration_moy = df.duration.mean()
 print(f"average speed km/h = {(distance_moy / duration_moy) * 60}")
 
 # Sélectionner les colonnes pertinentes
-selected_features = ['athlete', 'duration', 'age_group']
+selected_features = ['athlete', 'distance', 'age_group']
 X = df[selected_features]
-y = df['distance']
+y = df['duration']
 
 # Diviser les données en ensembles d'entraînement (train), de validation (validation) et de test (test)
 X_train, X_temp, y_train, y_temp = train_test_split(X, y, test_size=0.4, random_state=42)
@@ -35,8 +37,10 @@ preprocessor = ColumnTransformer(
 
 # Boucle pour différents degrés de polynômes
 for degree in range(1, 6):
+    # Enregistrez le temps de début
+    start_time = time.time()
     # Créer le pipeline avec le préprocesseur et le modèle polynomial
-    polyreg = make_pipeline(preprocessor, PolynomialFeatures(degree), LinearRegression())
+    polyreg = make_pipeline(preprocessor, PolynomialFeatures(degree), Ridge(alpha=1.0))
 
     # Adapter le modèle
     polyreg.fit(X_train, y_train)
@@ -52,11 +56,20 @@ for degree in range(1, 6):
     print(f'R-squared (R2) on validation set: {r2}')
 
     # Visualiser les résultats pour la régression polynomiale
-    plt.scatter(X_test['duration'], y_test, color='black', label='True values (Polynomial Regression)')
-    plt.scatter(X_test['duration'], polyreg.predict(X_test), color='blue', linewidth=1,
+    plt.scatter(X_test['distance'], y_test, color='black', label='True values (Polynomial Regression)')
+    plt.scatter(X_test['distance'], polyreg.predict(X_test), color='blue', linewidth=1,
                 label=f'Predicted values (Polynomial Regression) deg: {degree}')
-    plt.xlabel('Duration')
-    plt.ylabel('Distance')
+    plt.xlabel('Distance (km)')
+    plt.ylabel('Duration (minute)')
     plt.legend()
+        # Enregistrez le temps de fin
+    end_time = time.time()
+    # Calculez la durée totale
+    execution_time = end_time - start_time
+    print(f'Execution time: {execution_time}')
     plt.show()
 
+
+
+# Affichez la durée totale d'exécution
+print(f"Temps d'exécution total : {execution_time} secondes")
