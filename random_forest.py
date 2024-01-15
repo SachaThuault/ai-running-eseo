@@ -9,7 +9,7 @@ from sklearn.compose import ColumnTransformer
 from sklearn.preprocessing import OneHotEncoder
 
 # Charger les données
-df = pd.read_parquet('../data/run_ww_2019_m.parquet')
+df = pd.read_parquet('../data/run_ww_2020_d.parquet')
 
 # Calculer la moyenne
 distance_moy = df.distance.mean()
@@ -17,7 +17,7 @@ duration_moy = df.duration.mean()
 print(f"average speed km/h = {(distance_moy / duration_moy) * 60}")
 
 # Sélectionner les colonnes pertinentes
-selected_features = ['athlete', 'duration', 'age_group']
+selected_features = ['athlete', 'duration']
 X = df[selected_features]
 y = df['distance']
 
@@ -26,16 +26,16 @@ X_train, X_temp, y_train, y_temp = train_test_split(X, y, test_size=0.4, random_
 X_val, X_test, y_val, y_test = train_test_split(X_temp, y_temp, test_size=0.5, random_state=42)
 
 # Créer un préprocesseur pour gérer les variables catégorielles
-preprocessor = ColumnTransformer(
-    transformers=[
-        ('age_group', OneHotEncoder(), ['age_group'])
-    ],
-    remainder='passthrough'
-)
+# preprocessor = ColumnTransformer(
+#     transformers=[
+#         ('age_group', OneHotEncoder(), ['age_group'])
+#     ],
+#     remainder='passthrough'
+# )
 
 
 # Créer le pipeline avec le préprocesseur et le modèle de forêt aléatoire
-rf_model = make_pipeline(preprocessor, RandomForestRegressor(n_estimators=100, random_state=42))
+rf_model = make_pipeline( RandomForestRegressor(n_estimators=100, random_state=42))
 
 # Adapter le modèle
 rf_model.fit(X_train, y_train)
