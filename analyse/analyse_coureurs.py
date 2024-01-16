@@ -39,19 +39,20 @@ def process_data_and_plot(id_coureur):
             count += 1
 
     print("--------------------------------------------")
-    print("jours de repos dans l'année : " + str(count))
-    print("moyenne de nombre de jour par semaine : " + str(count / 54))
-    print("gender : " + str(genders[0]))
-    print("age_groups : " + str(age_groups[0]))
-    print("countries : " + str(countries[0]))
-    print("majors : " + str(majors[0]))
-    print("volume total : " + str(sum(distances)))
+    print("Jours de repos dans l'année : " + str(count))
+    print("Moyenne de nombre de jour par semaine : " + str(count / 54))
+    print("Genre : " + str(genders[0]))
+    print("Groupe d'âge : " + str(age_groups[0]))
+    print("Pays : " + str(countries[0]))
+    print("Premier marathon 'major' : " + str(majors[0]))
+    print("Volume total sur 2 ans : " + str(sum(distances)))
     print("--------------------------------------------")
     plt.figure(figsize=(12, 8))
 
     plt.scatter(datetimes, distances, label="datetime / distance", s=100)
 
-    plt.title('Analyse entrainement : volume quotidien en fonction de la date sur 2 ans')
+    plt.title('Analyse entrainement : volume quotidien en fonction de la date sur 2 ans,'
+              '\nid athlète = ' + str(id_coureur))
     plt.xlabel('Date')
     plt.ylabel('Distance (km)')
 
@@ -59,7 +60,8 @@ def process_data_and_plot(id_coureur):
 
     plt.scatter(durations, distances, label="duration / distance", s=100)
 
-    plt.title('Analyse entrainements : durée en fonction de la distance sur 2 ans')
+    plt.title('Analyse entrainements : durée en fonction de la distance sur 2 ans,'
+              '\nid athlète = ' + str(id_coureur))
     plt.xlabel('Durée (minutes)')
     plt.ylabel('Distance (km)')
 
@@ -80,6 +82,3 @@ process_data_and_plot(13645)
 process_data_and_plot(19847)
 process_data_and_plot(15264)
 process_data_and_plot(21551)
-
-
-
