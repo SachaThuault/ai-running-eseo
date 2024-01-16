@@ -16,7 +16,6 @@ def process_data_and_plot(id_coureur):
     df = pd.read_parquet('../../data/run_ww_2019_d.parquet')
     df2 = pd.read_parquet('../../data/run_ww_2020_d.parquet')
 
-    # coureur semi pro, 18 - 34
     coureur_2019 = df.loc[df.athlete == id_coureur]
     coureur_2020 = df2.loc[df2.athlete == id_coureur]
 
@@ -47,24 +46,21 @@ def process_data_and_plot(id_coureur):
     print("Premier marathon 'major' : " + str(majors[0]))
     print("Volume total sur 2 ans : " + str(sum(distances)))
     print("--------------------------------------------")
+
     plt.figure(figsize=(12, 8))
 
     plt.scatter(datetimes, distances, label="datetime / distance", s=100)
-
     plt.title('Analyse entrainement : volume quotidien en fonction de la date sur 2 ans,'
               '\nid athlète = ' + str(id_coureur))
     plt.xlabel('Date')
     plt.ylabel('Distance (km)')
-
     plt.show()
 
     plt.scatter(durations, distances, label="duration / distance", s=100)
-
     plt.title('Analyse entrainements : durée en fonction de la distance sur 2 ans,'
               '\nid athlète = ' + str(id_coureur))
     plt.xlabel('Durée (minutes)')
     plt.ylabel('Distance (km)')
-
     plt.show()
 
 
