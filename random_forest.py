@@ -7,24 +7,33 @@ from sklearn.preprocessing import PolynomialFeatures
 from sklearn.pipeline import make_pipeline
 from sklearn.compose import ColumnTransformer
 from sklearn.preprocessing import OneHotEncoder
+import time
 
+<<<<<<< HEAD
 # Charger les données
 df = pd.read_parquet('../data/run_ww_2020_d.parquet')
+=======
+start_time = time.time()
+df = pd.read_parquet('./data/run_ww_2020_d.parquet')
+>>>>>>> c77ef31dcd140e2df69bafbfbe95e4cf612b2928
 
-# Calculer la moyenne
 distance_moy = df.distance.mean()
 duration_moy = df.duration.mean()
 print(f"average speed km/h = {(distance_moy / duration_moy) * 60}")
 
+<<<<<<< HEAD
 # Sélectionner les colonnes pertinentes
 selected_features = ['athlete', 'duration']
+=======
+selected_features = ['athlete', 'distance', 'age_group']
+>>>>>>> c77ef31dcd140e2df69bafbfbe95e4cf612b2928
 X = df[selected_features]
-y = df['distance']
+y = df['duration']
 
-# Diviser les données en ensembles d'entraînement (train), de validation (validation) et de test (test)
 X_train, X_temp, y_train, y_temp = train_test_split(X, y, test_size=0.4, random_state=42)
 X_val, X_test, y_val, y_test = train_test_split(X_temp, y_temp, test_size=0.5, random_state=42)
 
+<<<<<<< HEAD
 # Créer un préprocesseur pour gérer les variables catégorielles
 # preprocessor = ColumnTransformer(
 #     transformers=[
@@ -38,22 +47,34 @@ X_val, X_test, y_val, y_test = train_test_split(X_temp, y_temp, test_size=0.5, r
 rf_model = make_pipeline( RandomForestRegressor(n_estimators=100, random_state=42))
 
 # Adapter le modèle
-rf_model.fit(X_train, y_train)
+=======
+preprocessor = ColumnTransformer(
+    transformers=[
+        ('age_group', OneHotEncoder(), ['age_group'])
+    ],
+    remainder='passthrough'
+)
 
-# Faire des prédictions sur l'ensemble de validation
+rf_model = make_pipeline(preprocessor, RandomForestRegressor(n_estimators=100, random_state=42))
+>>>>>>> c77ef31dcd140e2df69bafbfbe95e4cf612b2928
+rf_model.fit(X_train, y_train)
 y_val_pred_rf = rf_model.predict(X_val)
 
-# Évaluer les performances sur l'ensemble de validation
 mse_rf = mean_squared_error(y_val, y_val_pred_rf)
 r2_rf = r2_score(y_val, y_val_pred_rf)
 print(f'Mean Squared Error (MSE) on validation set: {mse_rf}')
 print(f'R-squared (R2) on validation set: {r2_rf}')
 
-# Visualiser les résultats pour la forêt aléatoire
-plt.scatter(X_test['duration'], y_test, color='black', label='True values (Random Forest)')
-plt.scatter(X_test['duration'], rf_model.predict(X_test), color='green', linewidth=1,
+plt.scatter(X_test['distance'], y_test, color='black', label='True values (Random Forest)')
+plt.scatter(X_test['distance'], rf_model.predict(X_test), color='green', linewidth=1,
             label=f'Predicted values (Random Forest)')
-plt.xlabel('Duration')
-plt.ylabel('Distance')
+plt.xlabel('Distance')
+plt.ylabel('Duration')
 plt.legend()
 plt.show()
+
+end_time = time.time()
+
+execution_time = end_time - start_time
+
+print(f"Temps d'exécution total : {execution_time} secondes")
