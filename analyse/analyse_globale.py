@@ -19,9 +19,6 @@ print("----------------------------------------------------")
 print("nombre de femmes en 2019 : ", 3864+4629+396)
 print("nombre d'hommes en 2019 : ", 8378+16972+2173)
 print("total athlètes : ", 3864+4629+396+8378+16972+2173)
-# répartition entre les continents
-continent_count = df.groupby(['country']).size().sort_values(ascending=False)
-
 
 print("----------------------------------------------------")
 print("Répartition par pays : ")
