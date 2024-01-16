@@ -71,3 +71,15 @@ process_data_and_plot(37594)
 
 # coureur récréatif, 18 - 34
 process_data_and_plot(21550)
+
+# autres profils intéressants à observer
+process_data_and_plot(21547)
+process_data_and_plot(21549)
+process_data_and_plot(15468)
+process_data_and_plot(13645)
+process_data_and_plot(19847)
+process_data_and_plot(15264)
+process_data_and_plot(21551)
+
+
+

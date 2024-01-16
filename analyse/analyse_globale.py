@@ -4,23 +4,25 @@ import pandas as pd
 df = pd.read_parquet('../../data/run_ww_2019_d.parquet')
 df2 = pd.read_parquet('../../data/run_ww_2020_d.parquet')
 
-print("----------------COLONNE ATHLETE 2019----------------")
-print(df.athlete)
-print("----------------COLONNE ATHLETE 2020----------------")
-print(df2.athlete)
+
+print("---------------------------------------------------")
+gender_counts = df.groupby(['age_group', 'gender', 'datetime']).size().unstack()
+print("Répartition des genres en 2019 : ")
+print(gender_counts.mean(axis=1))
+
+print("---------------------------------------------------")
+gender_counts2 = df2.groupby(['age_group', 'gender', 'datetime']).size().unstack()
+print("Répartition des genres en 2020 : ")
+print(gender_counts2.mean(axis=1))
 
 print("----------------------------------------------------")
-
-gender_counts = df.groupby(['age_group', 'gender']).size().unstack()
-print("répartition des genres en 2019 : ")
-print(gender_counts)
-print("----------------------------------------------------")
-
-gender_counts2 = df2.groupby(['age_group', 'gender']).size().unstack()
-print("répartition des genres en 2020 : ")
-print(gender_counts2)
-print("----------------------------------------------------")
-
-
+print("nombre de femmes en 2019 : ", 3864+4629+396)
+print("nombre d'hommes en 2019 : ", 8378+16972+2173)
+print("total athlètes : ", 3864+4629+396+8378+16972+2173)
 # répartition entre les continents
-#
+continent_count = df.groupby(['country']).size().sort_values(ascending=False)
+
+
+print("----------------------------------------------------")
+print("Répartition par pays : ")
+print(continent_count/365)
